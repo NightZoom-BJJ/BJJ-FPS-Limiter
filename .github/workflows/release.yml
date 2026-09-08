@@ -44,10 +44,10 @@ jobs:
             }
           }
           Write-Host "Addon version: $ver"
-          "nz_version=$ver" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "bjj_version=$ver" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       - name: Configure (MSVC x64)
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DNZ_VERSION="${{ env.nz_version }}"
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DBJJ_VERSION="${{ env.bjj_version }}"
 
       - name: Build (Release)
         run: cmake --build build --config Release
@@ -63,16 +63,17 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path dist | Out-Null
           New-Item -ItemType Directory -Force -Path 'dist/Copy-these-into-plugins' | Out-Null
-          Copy-Item build/Release/NZ-FPS-Limiter.addon64 'dist/Copy-these-into-plugins/'
+          Copy-Item build/Release/BJJ-FPS-Limiter.addon64 'dist/Copy-these-into-plugins/'
           Copy-Item dxgi.dll                             'dist/Copy-these-into-plugins/'
           Copy-Item packaging/Enable-ReShade.bat         'dist/Copy-these-into-plugins/'
           Copy-Item 'packaging/Install Guide.html'       dist/
+          Copy-Item packaging/SOURCE.txt                  dist/
           Copy-Item third_party/ReShade-LICENSE.txt      dist/
           Copy-Item third_party/Dear-ImGui-LICENSE.txt   dist/
           Copy-Item LICENSE                              dist/LICENSE.txt
           # The zip name carries the addon version, so record the bundled ReShade here.
           "${{ steps.reshade.outputs.version }}" | Out-File -FilePath dist/reshade-version.txt -Encoding utf8 -NoNewline
-          $zip = "NZ-FPS-Limiter_v$env:nz_version.zip"
+          $zip = "BJJ-FPS-Limiter_v$env:bjj_version.zip"
           Compress-Archive -Path dist/* -DestinationPath $zip -Force
           "bundle_zip=$zip" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
@@ -81,7 +82,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: NZ-FPS-Limiter-dryrun
+          name: BJJ-FPS-Limiter-dryrun
           path: ${{ env.bundle_zip }}
 
       # --- Release (only when a v* tag is PUSHED) ---------------------------
@@ -95,13 +96,13 @@ jobs:
           name: ${{ github.ref_name }}
           generate_release_notes: true
           body: |
-            Locks your game to a smooth **60 FPS**. A ReShade add-on for the NightZoom server.
+            Locks your game to a smooth **60 FPS**. A bjj_dev ReShade add-on, built for the NightZoom server.
 
             **Install:** download the zip, extract it, and open **`Install Guide.html`** -
             follow the steps. (It bundles ReShade, so it's all you need.)
 
             Bundled ReShade: **${{ steps.reshade.outputs.version }}**.
 
-            Something not working? [Open an issue](https://github.com/Nipeno/nightzoom-fps-limiter/issues/new/choose).
+            Something not working? [Open an issue](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/issues/new/choose).
             Open source (GPLv3).
           files: ${{ env.bundle_zip }}

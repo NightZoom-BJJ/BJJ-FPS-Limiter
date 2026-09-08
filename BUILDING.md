@@ -1,10 +1,10 @@
-# Building NightZoom FPS Limiter (developer guide)
+# Building BJJ FPS Limiter (developer guide)
 
 This is the technical/developer documentation. If you just want to *use* the addon, see the
 [README](README.md).
 
-NightZoom FPS Limiter is a single-DLL [ReShade](https://reshade.me) addon written in C++17, Windows x64 only.
-The output is `NZ-FPS-Limiter.addon64`. All logic lives in [`src/main.cpp`](src/main.cpp).
+BJJ FPS Limiter is a single-DLL [ReShade](https://reshade.me) addon written in C++17, Windows x64 only.
+The output is `BJJ-FPS-Limiter.addon64`. All logic lives in [`src/main.cpp`](src/main.cpp).
 
 ## Build
 
@@ -13,7 +13,7 @@ Prerequisites: Visual Studio 2022 ("Desktop development with C++" workload) and 
 ```sh
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release
-# -> build/Release/NZ-FPS-Limiter.addon64
+# -> build/Release/BJJ-FPS-Limiter.addon64
 ```
 
 CI builds the addon on every push and PR via GitHub Actions
@@ -22,15 +22,15 @@ assembled bundle is attached to each run as a build artifact.
 
 ### Versioning
 
-The version comes from the git tag and nothing else. CI passes `-DNZ_VERSION=X.Y.Z`, which flows
+The version comes from the git tag and nothing else. CI passes `-DBJJ_VERSION=X.Y.Z`, which flows
 into three places: the DLL's `VERSIONINFO` resource (generated from
 [`src/version.rc.in`](src/version.rc.in), so Windows file properties show it), the
-`NZ_VERSION_STR` compile definition the overlay prints, and the release zip's filename. Local and
+`BJJ_VERSION_STR` compile definition the overlay prints, and the release zip's filename. Local and
 CI builds don't pass it, so they report **`0.0.0`** — that's the intended "not a release build"
 signal, not a bug. To build a versioned binary by hand:
 
 ```sh
-cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DNZ_VERSION=2.3.0
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DBJJ_VERSION=2.3.0
 ```
 
 ### Runtime library
@@ -108,7 +108,7 @@ that user's ReShade predates 6.1 and needs updating.
   to Windows timer granularity). `timeBeginPeriod(1)`/`timeEndPeriod(1)` tighten sleep granularity
   at load/unload.
 - **Persistence** - the checkbox value is read in `init_effect_runtime` and written on toggle via
-  `reshade::get/set_config_value` under the `[NZ-FPS-Limiter]` config section.
+  `reshade::get/set_config_value` under the `[BJJ-FPS-Limiter]` config section.
 - **Overlay** - registered with a named title via `reshade::register_overlay`, so it appears as its
   own window in the ReShade menu. ReShade draws addon overlays with a plain `ImGui::Begin`, and
   pipes ImGui's settings handlers into `ReShade.ini` (`[OVERLAY] Window=` / `Docking=`) instead of
@@ -119,7 +119,7 @@ that user's ReShade predates 6.1 and needs updating.
   from an addon: ReShade builds that layout with the `DockBuilder*` API, which is ImGui-internal and
   absent from `ReShadeGetImGuiFunctionTable()`, and the node IDs it generates are not derivable.
   Users can still drag the window in themselves, and that choice sticks.
-- **Logging** - `nz_log()` wraps `reshade::log_message`, so everything lands in `ReShade.log`
+- **Logging** - `bjj_log()` wraps `reshade::log_message`, so everything lands in `ReShade.log`
   alongside ReShade's own lines, prefixed with the add-on name. Load, effect-runtime init (with the
   graphics API in use), the first present, and any failure are logged at INFO/WARN; routine detail
   (config read, teardown) is DEBUG. Note that **ReShade has no runtime log level** - the
@@ -130,7 +130,7 @@ that user's ReShade predates 6.1 and needs updating.
   frame.
 - **Logo** - embedded as a byte array in [`src/logo_data.h`](src/logo_data.h), decoded from memory
   via WIC and uploaded as a ReShade texture (`create_resource` / `create_resource_view`), freed in
-  `destroy_effect_runtime`. If decoding ever fails, a bordered `[ NightZoom FPS Limiter logo ]` placeholder is
+  `destroy_effect_runtime`. If decoding ever fails, a bordered `[ BJJ FPS Limiter logo ]` placeholder is
   drawn instead.
 
 ### Changing the logo
@@ -188,9 +188,9 @@ addon they:
 2. **Download + extract** the add-on-enabled installer and pull out `ReShade64.dll` via
    `7z e ReShade_Setup.exe ReShade64.dll`, then copy it to **`dxgi.dll`** (the name FiveM loads
    ReShade under from its `plugins` folder).
-3. **Zip** `dxgi.dll` + `NZ-FPS-Limiter.addon64` + `packaging/Enable-ReShade.bat` +
+3. **Zip** `dxgi.dll` + `BJJ-FPS-Limiter.addon64` + `packaging/Enable-ReShade.bat` +
    `packaging/Install Guide.html` + both license notices + `reshade-version.txt` into
-   `NZ-FPS-Limiter_v<ver>.zip`.
+   `BJJ-FPS-Limiter_v<ver>.zip`.
 
 The zip name carries the **addon** version (from the tag), which is why the bundled ReShade
 version is recorded in `reshade-version.txt` inside the zip instead. The end-user install guide
@@ -231,7 +231,7 @@ git tag vX.Y.Z && git push origin vX.Y.Z
 ReShade's:
 
 ```sh
-gh release view vX.Y.Z --repo Nipeno/nightzoom-fps-limiter --json assets
+gh release view vX.Y.Z --repo NightZoom-BJJ/BJJ-FPS-Limiter --json assets
 ```
 
 > The bundle carries whatever ReShade was latest at release time. Because ReShade loads addons
@@ -249,6 +249,6 @@ ship inside the release zip:
 
 ## License
 
-NightZoom FPS Limiter itself is GPLv3 - see [LICENSE](LICENSE). Any distributed fork or derivative must also
+BJJ FPS Limiter itself is GPLv3 - see [LICENSE](LICENSE). Any distributed fork or derivative must also
 be open-sourced under the GPL. (Bundling the BSD-licensed ReShade alongside it is "mere
 aggregation" and permitted.)

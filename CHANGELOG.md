@@ -10,6 +10,42 @@ Every release bundles whatever ReShade was latest at build time; the exact versi
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-09-07
+
+The limiter is now a **bjj_dev** product. Nothing about how it works changed — same fixed 60 FPS
+cap, same single button, same timing code. What changed is the name on it and the file it installs
+as, and that second one needs a minute of your attention if you already had the old version.
+
+### Changed
+- Renamed from **NightZoom FPS Limiter** to **BJJ FPS Limiter**, with the bjj_dev mark in the
+  overlay. It's still built for the NightZoom server, and the Discord button still goes to the
+  NightZoom Discord.
+- **The add-on file is now `BJJ-FPS-Limiter.addon64`** (was `NZ-FPS-Limiter.addon64`). Because the
+  name changed, dropping the new one in does *not* replace the old one — **delete
+  `NZ-FPS-Limiter.addon64`** from your plugins folder. ReShade loads every add-on it finds, and two
+  limiters pacing the same frame caps you around 30 FPS instead of 60. The install guide now warns
+  about this at the step where you'd hit it.
+- The source lives at <https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter>, and the overlay's
+  "View Source on GitHub" button points there.
+- The Install Guide is reskinned to the bjj_dev look from bjj-dev.com — warm near-black, the
+  amber accent, mono labels. It stays a single self-contained file with no webfont or other
+  external request, so it renders the same offline as online.
+- The overlay window is titled "BJJ FPS Limiter", which ReShade treats as a new window — it opens
+  at the default size and position once, rather than inheriting the spot you'd dragged the old one
+  to. Move or dock it and it sticks from then on, as before.
+
+### Added
+- Your on/off choice carries over from a NightZoom-branded install automatically: it's read once
+  from the old `[NZ-FPS-Limiter]` config section and written back under `[BJJ-FPS-Limiter]`.
+- `SOURCE.txt` in the zip: where to get the source for that exact build, what each bundled file
+  is and which licence covers it. The zip gets passed around on Discord, away from the releases
+  page, so the GPL source offer now travels with it.
+
+### Notes
+- Still GPLv3. This is a modified version of Nipeno's NightZoom FPS Limiter v2.5.0 — the original
+  copyright notice and a summary of what was changed are kept in `src/main.cpp`, as the license
+  requires. The limiter itself is Nipeno's work.
+
 ## [2.5.0] - 2026-08-07
 
 ### Added
@@ -154,17 +190,18 @@ Initial release.
 - GPLv3 license, a "View Source on GitHub" button in the overlay, and split user/developer docs.
 - GitHub Actions build targeting ReShade addon API 18 (SDK v6.7.3).
 
-[Unreleased]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.5.0...HEAD
-[2.5.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.4.1...v2.5.0
-[2.4.1]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.4.0...v2.4.1
-[2.4.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.3.0...v2.4.0
-[2.3.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.2.0...v2.3.0
-[2.2.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.1.2...v2.2.0
-[2.1.2]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.1.1...v2.1.2
-[2.1.1]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.1.0...v2.1.1
-[2.1.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v1.2.0...v2.0.0
-[1.2.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v1.1.1...v1.2.0
-[1.1.1]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v1.1.0...v1.1.1
-[1.1.0]: https://github.com/Nipeno/nightzoom-fps-limiter/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/Nipeno/nightzoom-fps-limiter/releases/tag/v1.0.0
+[Unreleased]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.5.0...v3.0.0
+[2.5.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.4.1...v2.5.0
+[2.4.1]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.4.0...v2.4.1
+[2.4.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.3.0...v2.4.0
+[2.3.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.1.2...v2.2.0
+[2.1.2]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.1.1...v2.1.2
+[2.1.1]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v1.1.1...v1.2.0
+[1.1.1]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/releases/tag/v1.0.0

@@ -66,7 +66,7 @@ body:
     id: addon-version
     attributes:
       label: Addon version
-      description: Shown in the overlay under "Made by Nipeno", and in the zip name (NZ-FPS-Limiter_v<ver>.zip).
+      description: Shown in the overlay under "A bjj_dev product", and in the zip name (BJJ-FPS-Limiter_v<ver>.zip).
       placeholder: e.g. v2.3.0
     validations:
       required: true

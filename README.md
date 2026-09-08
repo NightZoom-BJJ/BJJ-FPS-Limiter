@@ -1,15 +1,16 @@
-# NightZoom FPS Limiter
+# BJJ FPS Limiter
 
-[![Build](https://github.com/Nipeno/nightzoom-fps-limiter/actions/workflows/build.yml/badge.svg)](https://github.com/Nipeno/nightzoom-fps-limiter/actions/workflows/build.yml)
-[![Latest release](https://img.shields.io/github/v/release/Nipeno/nightzoom-fps-limiter)](https://github.com/Nipeno/nightzoom-fps-limiter/releases/latest)
+[![Build](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/actions/workflows/build.yml/badge.svg)](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/NightZoom-BJJ/BJJ-FPS-Limiter)](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/releases/latest)
 [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
-**NightZoom Partnered**
+**A bjj_dev product** · built for the **NightZoom** racing server
 
 Locks your game to a smooth **60 FPS**. A simple add-on for [ReShade](https://reshade.me) with
 one button - turn it on to cap, turn it off to unlock.
 
-<img src="docs/overlay.png" alt="The NightZoom FPS Limiter overlay in-game: the NightZoom logo, a &quot;Limit to 60 FPS&quot; checkbox, and buttons linking to the Discord and the source code." width="380">
+<!-- TODO: re-shoot docs/overlay.png against the v3 overlay (bjj_dev logo + new credit line);
+     the existing capture still shows the old NightZoom-branded window. -->
 
 ## Why 60?
 
@@ -28,10 +29,17 @@ ReShade too.
 
 ## How to install
 
-Download **`NZ-FPS-Limiter…zip`** from the
-[**Releases page**](https://github.com/Nipeno/nightzoom-fps-limiter/releases/latest), extract it,
+Download **`BJJ-FPS-Limiter…zip`** from the
+[**Releases page**](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/releases/latest), extract it,
 and open the included **`Install Guide.html`** - it walks you through the whole setup, including the
 one-time FiveM "ReShade was blocked" fix. The zip bundles ReShade, so it's all you need.
+
+### Upgrading from the old NightZoom FPS Limiter
+
+The add-on file was renamed in v3.0.0, so **delete the old `NZ-FPS-Limiter.addon64`** from your
+`plugins` folder when you drop the new one in. ReShade loads *every* `.addon64` it finds, so
+leaving both behind means two limiters each pacing the same frame - which caps you at roughly
+**30 FPS**, not 60. Your on/off choice carries over automatically.
 
 ## Is it safe? What does it do?
 
@@ -50,7 +58,7 @@ inside the add-on too.
 ## Support
 
 Found a bug, or something won't install?
-**[Open an issue](https://github.com/Nipeno/nightzoom-fps-limiter/issues/new/choose)** - bug
+**[Open an issue](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/issues/new/choose)** - bug
 reports and questions are both handled on GitHub, so answers stay searchable for the next person
 who hits the same thing.
 
@@ -64,7 +72,8 @@ place to get onto the server, not the place to report add-on bugs.
 
 ## Credits
 
-- Developer: **Nipeno**
+- Maintained by **bjj_dev**
+- Originally created by **Nipeno**, who wrote the limiter this is built on
 - Testers: **Beanz**, **Cenkov**, **PhatWraith**, **krispy lzz**, **Wraith**, **hachiro**
 
 ## For developers
@@ -76,3 +85,7 @@ Contributions welcome - start with **[CONTRIBUTING.md](CONTRIBUTING.md)**.
 
 Free and open source under **GPLv3** - see [LICENSE](LICENSE). You can use, study, and modify it,
 but any shared version must stay open source too.
+
+This is a modified version of Nipeno's NightZoom FPS Limiter (v2.5.0), rebranded and maintained by
+bjj_dev. The original copyright notice is kept in [`src/main.cpp`](src/main.cpp) alongside a summary
+of what was changed, as GPLv3 requires.

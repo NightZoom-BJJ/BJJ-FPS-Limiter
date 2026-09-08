@@ -1,9 +1,9 @@
 @echo off
 setlocal
-title NightZoom FPS Limiter - Enable ReShade in FiveM
+title BJJ FPS Limiter - Enable ReShade in FiveM
 
 rem ============================================================================
-rem  NightZoom FPS Limiter - Enable ReShade in FiveM
+rem  BJJ FPS Limiter - Enable ReShade in FiveM
 rem
 rem  WHAT THIS DOES (and only this):
 rem    FiveM blocks ReShade 5+ until you acknowledge it once. This adds a single
@@ -15,7 +15,7 @@ rem    needed, and every other setting in CitizenFX.ini is left untouched: it
 rem    uses the same Windows INI API FiveM itself reads the file with.
 rem
 rem  Open source - read the PowerShell below this header to see exactly what runs.
-rem  https://github.com/Nipeno/nightzoom-fps-limiter
+rem  https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter
 rem ============================================================================
 
 rem Hand our own path + folder to PowerShell via env vars so a path containing a
@@ -36,7 +36,7 @@ $ErrorActionPreference = 'Stop'
 $batDir = $env:NZ_DIR
 
 Write-Host ''
-Write-Host '  NightZoom FPS Limiter - Enable ReShade in FiveM' -ForegroundColor Cyan
+Write-Host '  BJJ FPS Limiter - Enable ReShade in FiveM' -ForegroundColor Cyan
 Write-Host '  ------------------------------------------------'
 
 # 1) Compute this PC's ReShade5 acknowledgement ID.

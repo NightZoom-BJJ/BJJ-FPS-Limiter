@@ -55,12 +55,12 @@ git tag vX.Y.Z && git push origin vX.Y.Z
 ```
 
 `.github/workflows/release.yml` builds the addon at that version, bundles the latest official
-ReShade, and attaches `NZ-FPS-Limiter_vX.Y.Z.zip` to the GitHub Release. The tag is the single
+ReShade, and attaches `BJJ-FPS-Limiter_vX.Y.Z.zip` to the GitHub Release. The tag is the single
 source of truth for the version — it flows into the DLL's version resource and the overlay label.
 
 ## Reporting bugs
 
-Use the [issue forms](https://github.com/Nipeno/nightzoom-fps-limiter/issues/new/choose). Bugs and
+Use the [issue forms](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/issues/new/choose). Bugs and
 questions both go through GitHub Issues so answers stay searchable. For security problems, see
 [SECURITY.md](SECURITY.md) instead.
 

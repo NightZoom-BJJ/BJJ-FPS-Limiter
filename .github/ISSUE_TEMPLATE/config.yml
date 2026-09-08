@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Install guide (README)
-    url: https://github.com/Nipeno/nightzoom-fps-limiter#readme
+    url: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter#readme
     about: Read this first — covers the ReShade5 enable step, the overlay key, and VSync.
   - name: NightZoom Discord
     url: https://discord.gg/nightzoom

@@ -19,7 +19,7 @@
 # --- area ---
 - name: area:addon
   color: 1d76db
-  description: The NZ-FPS-Limiter.addon64 DLL (src/main.cpp)
+  description: The BJJ-FPS-Limiter.addon64 DLL (src/main.cpp)
 - name: area:ci
   color: 1d76db
   description: GitHub Actions build / release pipeline

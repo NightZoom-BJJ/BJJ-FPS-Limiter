@@ -49,7 +49,7 @@ jobs:
 
       # CI builds are never releases, so they stay on the 0.0.0 sentinel version.
       - name: Configure (MSVC x64)
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DNZ_VERSION="0.0.0"
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DBJJ_VERSION="0.0.0"
 
       - name: Build (Release)
         run: cmake --build build --config Release
@@ -66,21 +66,22 @@ jobs:
           New-Item -ItemType Directory -Force -Path dist | Out-Null
           New-Item -ItemType Directory -Force -Path 'dist/Copy-these-into-plugins' | Out-Null
           # Files the user drags into their FiveM plugins folder.
-          Copy-Item build/Release/NZ-FPS-Limiter.addon64 'dist/Copy-these-into-plugins/'
+          Copy-Item build/Release/BJJ-FPS-Limiter.addon64 'dist/Copy-these-into-plugins/'
           Copy-Item dxgi.dll                             'dist/Copy-these-into-plugins/'
           Copy-Item packaging/Enable-ReShade.bat         'dist/Copy-these-into-plugins/'
           # Guide + licenses stay at the zip root.
           Copy-Item 'packaging/Install Guide.html'       dist/
+          Copy-Item packaging/SOURCE.txt                  dist/
           Copy-Item third_party/ReShade-LICENSE.txt      dist/
           Copy-Item third_party/Dear-ImGui-LICENSE.txt   dist/
           Copy-Item LICENSE                              dist/LICENSE.txt
           # The zip name carries the addon version, so record the bundled ReShade here.
           "${{ steps.reshade.outputs.version }}" | Out-File -FilePath dist/reshade-version.txt -Encoding utf8 -NoNewline
-          Compress-Archive -Path dist/* -DestinationPath NZ-FPS-Limiter_v0.0.0.zip -Force
+          Compress-Archive -Path dist/* -DestinationPath BJJ-FPS-Limiter_v0.0.0.zip -Force
 
       # --- Artifact (available on every build) ------------------------------
       - name: Upload bundle (zip)
         uses: actions/upload-artifact@v4
         with:
-          name: NZ-FPS-Limiter
-          path: NZ-FPS-Limiter_v0.0.0.zip
+          name: BJJ-FPS-Limiter
+          path: BJJ-FPS-Limiter_v0.0.0.zip

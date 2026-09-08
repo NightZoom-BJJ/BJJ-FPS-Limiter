@@ -1,0 +1,41 @@
+BJJ FPS Limiter - where to get the source code
+==============================================
+
+This add-on is free software under the GNU General Public License, version 3.
+That means you are entitled to the complete source code for the exact build in
+this zip - not a similar version, the same one - and you may study it, change
+it, and pass it on.
+
+  Source code:  https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter
+
+The version of this build is shown in the add-on's overlay ("Version X.Y.Z")
+and in the name of this zip. Every released version has a matching tag in that
+repository, so vX.Y.Z there is the source this binary was built from. The full
+build instructions are in BUILDING.md.
+
+This offer is good for anyone who received this zip, however they received it -
+downloaded from the releases page, handed it over on Discord, or copied from a
+friend. If the link above ever stops working, ask in the NightZoom Discord
+(https://discord.gg/nightzoom) and the source will be provided.
+
+What is in this zip
+-------------------
+
+  BJJ-FPS-Limiter.addon64  The add-on itself. GPLv3. Source at the link above.
+                           A bjj_dev product, based on the NightZoom FPS
+                           Limiter by Nipeno, and still largely his code.
+
+  dxgi.dll                 ReShade, by Patrick Mours. Not ours, and not GPL -
+                           it is BSD 3-Clause. Unmodified official build. See
+                           ReShade-LICENSE.txt. Source: https://reshade.me
+
+  Enable-ReShade.bat       Helper script that allows ReShade in FiveM. GPLv3,
+                           same source as the add-on. It is a plain text file -
+                           open it in Notepad and read it before running it.
+
+Licenses in this zip
+--------------------
+
+  LICENSE.txt              GPLv3. Covers the add-on and the .bat script.
+  ReShade-LICENSE.txt      BSD 3-Clause. Covers dxgi.dll.
+  Dear-ImGui-LICENSE.txt   MIT. Covers the Dear ImGui code the overlay uses.

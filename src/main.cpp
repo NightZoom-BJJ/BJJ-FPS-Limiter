@@ -1,6 +1,13 @@
-// NightZoom FPS Limiter - a ReShade addon that hard-caps the frame rate to 60 FPS.
+// BJJ FPS Limiter - a ReShade addon that hard-caps the frame rate to 60 FPS.
+// A bjj_dev product, built for the NightZoom racing server.
 //
 // Copyright (C) 2026 Nipeno
+// Copyright (C) 2026 bjj_dev
+//
+// Modified by bjj_dev in 2026, from Nipeno's "NightZoom FPS Limiter" v2.5.0: rebranded the
+// add-on name, overlay title, logo, config section, output filename and project URLs, and
+// added a one-time migration of the saved on/off choice from the old config section. The
+// limiter itself - pacing, timer path, ReShade integration - is Nipeno's original work.
 //
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -8,7 +15,7 @@
 // version. This program is distributed WITHOUT ANY WARRANTY. See the GNU General
 // Public License (LICENSE file) for details: https://www.gnu.org/licenses/
 //
-// Build target: single DLL renamed to NZ-FPS-Limiter.addon64 (Windows x64).
+// Build target: single DLL renamed to BJJ-FPS-Limiter.addon64 (Windows x64).
 // Requires the ADDON-ENABLED build of ReShade.
 //
 // How it works:
@@ -16,7 +23,7 @@
 //    the previous present and, when the limiter is enabled, block until exactly one
 //    60 FPS frame interval has elapsed using a high-resolution waitable timer for the
 //    bulk of the wait plus a short busy-wait for sub-millisecond accuracy.
-//  - The overlay callback draws a dedicated "NightZoom FPS Limiter" window. ReShade
+//  - The overlay callback draws a dedicated "BJJ FPS Limiter" window. ReShade
 //    remembers that window's position, size and dock slot for us, in ReShade.ini.
 //  - The checkbox state is persisted via ReShade's own config (no custom file).
 //  - Startup, initialisation and failures are written to ReShade.log, so a user can
@@ -31,12 +38,12 @@
 
 #include <imgui.h>          // Must be included BEFORE reshade.hpp so the overlay wrappers compile.
 #include <reshade.hpp>
-#include "logo_data.h"      // Embedded NZ-FPS-Limiter_logo.png bytes (g_logo_png / g_logo_png_len)
+#include "logo_data.h"      // Embedded bjj-fps-limiter-logo.png bytes (g_logo_png / g_logo_png_len)
 
 #include <Windows.h>
 #include <shellapi.h>       // ShellExecuteA (open Discord link)
 #include <intrin.h>         // _mm_pause (spin-wait hint)
-#include <wincodec.h>       // WIC: decode NZ-FPS-Limiter_logo.png (system component, no extra dep)
+#include <wincodec.h>       // WIC: decode bjj-fps-limiter-logo.png (system component, no extra dep)
 #include <wrl/client.h>     // Microsoft::WRL::ComPtr
 #include <chrono>
 #include <thread>
@@ -63,15 +70,19 @@ static constexpr std::chrono::microseconds kSpinMargin{ 500 };
 #define CREATE_WAITABLE_TIMER_HIGH_RESOLUTION 0x00000002
 #endif
 
-static constexpr const char *kConfigSection = "NZ-FPS-Limiter";
+static constexpr const char *kConfigSection = "BJJ-FPS-Limiter";
 static constexpr const char *kConfigKey     = "LimitTo60";
 
-static constexpr const char *kDiscordUrl = "https://discord.gg/nightzoom";
-static constexpr const char *kGithubUrl  = "https://github.com/Nipeno/nightzoom-fps-limiter";
+// Pre-rebrand section name. Read once on load so upgrading users keep their on/off choice;
+// never written to. Safe to delete once nobody is coming from a NightZoom-branded build.
+static constexpr const char *kLegacyConfigSection = "NZ-FPS-Limiter";
 
-// Injected by CMake (-DNZ_VERSION). Fallback keeps non-CMake/standalone builds compiling.
-#ifndef NZ_VERSION_STR
-#define NZ_VERSION_STR "0.0.0"
+static constexpr const char *kDiscordUrl = "https://discord.gg/nightzoom";
+static constexpr const char *kGithubUrl  = "https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter";
+
+// Injected by CMake (-DBJJ_VERSION). Fallback keeps non-CMake/standalone builds compiling.
+#ifndef BJJ_VERSION_STR
+#define BJJ_VERSION_STR "0.0.0"
 #endif
 
 // ---------------------------------------------------------------------------
@@ -83,7 +94,7 @@ static constexpr const char *kGithubUrl  = "https://github.com/Nipeno/nightzoom-
 // writes whatever it is given (source/addon.cpp -> reshade::log::message) - so the
 // level here labels severity for whoever reads the log, it does not filter anything.
 // That is exactly why nothing is logged per frame.
-static void nz_log(reshade::log_level level, const char *fmt, ...)
+static void bjj_log(reshade::log_level level, const char *fmt, ...)
 {
 	char buf[512];
 
@@ -153,8 +164,8 @@ static void on_present(reshade::api::command_queue *, reshade::api::swapchain *,
 {
 	// One line, once per process: past this point the frame pacing path is live.
 	if (!g_first_present_logged.exchange(true, std::memory_order_relaxed))
-		nz_log(reshade::log_level::info, "First frame presented; limiter %s.",
-		       g_limit_enabled.load(std::memory_order_relaxed) ? "enabled" : "disabled");
+		bjj_log(reshade::log_level::info, "First frame presented; limiter %s.",
+		        g_limit_enabled.load(std::memory_order_relaxed) ? "enabled" : "disabled");
 
 	if (!g_limit_enabled.load(std::memory_order_relaxed))
 	{
@@ -266,7 +277,7 @@ static void load_logo_texture(reshade::api::effect_runtime *runtime)
 	uint32_t w = 0, h = 0;
 	if (!decode_png_rgba(pixels, w, h))
 	{
-		nz_log(reshade::log_level::warning, "Logo PNG decode failed; drawing placeholder.");
+		bjj_log(reshade::log_level::warning, "Logo PNG decode failed; drawing placeholder.");
 		return; // Decode failed -> placeholder is drawn instead.
 	}
 
@@ -281,7 +292,7 @@ static void load_logo_texture(reshade::api::effect_runtime *runtime)
 	reshade::api::resource res = { 0 };
 	if (!device->create_resource(desc, &initial, reshade::api::resource_usage::shader_resource, &res))
 	{
-		nz_log(reshade::log_level::warning, "Logo texture creation failed (resource); drawing placeholder.");
+		bjj_log(reshade::log_level::warning, "Logo texture creation failed (resource); drawing placeholder.");
 		return;
 	}
 
@@ -289,7 +300,7 @@ static void load_logo_texture(reshade::api::effect_runtime *runtime)
 	if (!device->create_resource_view(res, reshade::api::resource_usage::shader_resource,
 	                                  reshade::api::resource_view_desc(reshade::api::format::r8g8b8a8_unorm), &view))
 	{
-		nz_log(reshade::log_level::warning, "Logo texture creation failed (view); drawing placeholder.");
+		bjj_log(reshade::log_level::warning, "Logo texture creation failed (view); drawing placeholder.");
 		device->destroy_resource(res);
 		return;
 	}
@@ -318,18 +329,27 @@ static void free_logo_texture()
 
 static void on_init_effect_runtime(reshade::api::effect_runtime *runtime)
 {
-	nz_log(reshade::log_level::info, "Effect runtime initialised (device API: %s).",
-	       device_api_name(runtime->get_device()->get_api()));
+	bjj_log(reshade::log_level::info, "Effect runtime initialised (device API: %s).",
+	        device_api_name(runtime->get_device()->get_api()));
 
 	bool value = false;
 	if (reshade::get_config_value(runtime, kConfigSection, kConfigKey, value))
 	{
 		g_limit_enabled.store(value, std::memory_order_relaxed);
-		nz_log(reshade::log_level::debug, "Loaded %s=%d from config.", kConfigKey, value ? 1 : 0);
+		bjj_log(reshade::log_level::debug, "Loaded %s=%d from config.", kConfigKey, value ? 1 : 0);
+	}
+	else if (reshade::get_config_value(runtime, kLegacyConfigSection, kConfigKey, value))
+	{
+		// Upgraded from a NightZoom-branded build: adopt the old choice and write it back
+		// under the new section, so this migration only ever runs once per install.
+		g_limit_enabled.store(value, std::memory_order_relaxed);
+		reshade::set_config_value(runtime, kConfigSection, kConfigKey, value);
+		bjj_log(reshade::log_level::info, "Migrated %s=%d from the legacy [%s] config section.",
+		        kConfigKey, value ? 1 : 0, kLegacyConfigSection);
 	}
 	else
 	{
-		nz_log(reshade::log_level::debug, "No saved config; limiter starts disabled.");
+		bjj_log(reshade::log_level::debug, "No saved config; limiter starts disabled.");
 	}
 
 	load_logo_texture(runtime);
@@ -337,7 +357,7 @@ static void on_init_effect_runtime(reshade::api::effect_runtime *runtime)
 
 static void on_destroy_effect_runtime(reshade::api::effect_runtime *)
 {
-	nz_log(reshade::log_level::debug, "Effect runtime destroyed.");
+	bjj_log(reshade::log_level::debug, "Effect runtime destroyed.");
 	free_logo_texture();
 }
 
@@ -346,7 +366,7 @@ static void on_destroy_effect_runtime(reshade::api::effect_runtime *)
 // ---------------------------------------------------------------------------
 
 // Draws the real logo texture if one was loaded; otherwise a bordered
-// "[ NightZoom FPS Limiter logo ]" placeholder at a fixed 200x80 size.
+// "[ BJJ FPS Limiter logo ]" placeholder at a fixed 200x80 size.
 static void draw_logo()
 {
 	if (g_logo_view.handle != 0)
@@ -366,7 +386,7 @@ static void draw_logo()
 	draw->AddRect(pos, ImVec2(pos.x + size.x, pos.y + size.y),
 	              ImGui::GetColorU32(ImGuiCol_Border), 4.0f);
 
-	const char *label = "[ NightZoom FPS Limiter logo ]";
+	const char *label = "[ BJJ FPS Limiter logo ]";
 	const ImVec2 text_size = ImGui::CalcTextSize(label);
 	draw->AddText(ImVec2(pos.x + (size.x - text_size.x) * 0.5f,
 	                     pos.y + (size.y - text_size.y) * 0.5f),
@@ -406,8 +426,9 @@ static void draw_overlay(reshade::api::effect_runtime *runtime)
 
 	ImGui::Spacing();
 	ImGui::Separator();
-	ImGui::TextUnformatted("Made by Nipeno");
-	ImGui::TextDisabled("Version %s", NZ_VERSION_STR);
+	ImGui::TextUnformatted("A bjj_dev product");
+	ImGui::TextDisabled("Built for NightZoom - originally by Nipeno");
+	ImGui::TextDisabled("Version %s", BJJ_VERSION_STR);
 
 	// Discord link: button opens the invite; full URL shown below as a selectable fallback.
 	if (ImGui::Button("Join the Discord"))
@@ -426,9 +447,10 @@ static void draw_overlay(reshade::api::effect_runtime *runtime)
 // Addon metadata (read by ReShade)
 // ---------------------------------------------------------------------------
 
-extern "C" __declspec(dllexport) const char *NAME = "NightZoom FPS Limiter";
+extern "C" __declspec(dllexport) const char *NAME = "BJJ FPS Limiter";
 extern "C" __declspec(dllexport) const char *DESCRIPTION =
-	"Hard-caps the game's frame rate to exactly 60 FPS. Made by Nipeno.";
+	"Hard-caps the game's frame rate to exactly 60 FPS. A bjj_dev product, "
+	"built for NightZoom. Originally by Nipeno.";
 
 // ---------------------------------------------------------------------------
 // Entry point
@@ -446,20 +468,21 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID)
 		g_timer = CreateWaitableTimerExW(nullptr, nullptr,
 			CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
 		if (g_timer == nullptr)
-			nz_log(reshade::log_level::warning,
-			       "High-resolution timer unavailable (error %lu); using the sleep fallback.",
-			       GetLastError());
-		nz_log(reshade::log_level::info, "NightZoom FPS Limiter v%s loaded - cap 60 FPS, wait path: %s.",
-		       NZ_VERSION_STR, g_timer != nullptr ? "high-resolution timer" : "sleep fallback");
+			bjj_log(reshade::log_level::warning,
+			        "High-resolution timer unavailable (error %lu); using the sleep fallback.",
+			        GetLastError());
+		bjj_log(reshade::log_level::info, "BJJ FPS Limiter v%s loaded - cap 60 FPS, wait path: %s.",
+		        BJJ_VERSION_STR, g_timer != nullptr ? "high-resolution timer" : "sleep fallback");
 		reshade::register_event<reshade::addon_event::init_effect_runtime>(on_init_effect_runtime);
 		reshade::register_event<reshade::addon_event::destroy_effect_runtime>(on_destroy_effect_runtime);
 		reshade::register_event<reshade::addon_event::present>(on_present);
 		// The title is also the key ReShade stores this window's layout under in
 		// ReShade.ini - renaming it throws away every user's saved position/dock slot.
-		reshade::register_overlay("NightZoom FPS Limiter", draw_overlay);
+		// The v3.0.0 rebrand did exactly that once, on purpose; it must not happen again.
+		reshade::register_overlay("BJJ FPS Limiter", draw_overlay);
 		break;
 	case DLL_PROCESS_DETACH:
-		nz_log(reshade::log_level::debug, "Unloading.");
+		bjj_log(reshade::log_level::debug, "Unloading.");
 		reshade::unregister_addon(hModule);
 		if (g_timer != nullptr)
 			CloseHandle(g_timer);

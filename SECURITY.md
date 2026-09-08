@@ -5,7 +5,7 @@ config file. That deserves a real disclosure policy, so here it is.
 
 ## Supported versions
 
-Only the [latest release](https://github.com/Nipeno/nightzoom-fps-limiter/releases/latest) is
+Only the [latest release](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/releases/latest) is
 supported. Fixes go into a new release rather than patches for older tags.
 
 ## Reporting a vulnerability
@@ -13,7 +13,7 @@ supported. Fixes go into a new release rather than patches for older tags.
 **Do not open a public issue for a security problem.**
 
 Use GitHub's private vulnerability reporting:
-[**Report a vulnerability**](https://github.com/Nipeno/nightzoom-fps-limiter/security/advisories/new).
+[**Report a vulnerability**](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/security/advisories/new).
 That opens a private thread visible only to the maintainer.
 
 Please include what an attacker could achieve, the steps to reproduce, and your Windows / FiveM /

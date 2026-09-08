@@ -8,7 +8,7 @@
 #            deleting a label also strips it from every issue and PR that carried it).
 set -euo pipefail
 
-REPO="Nipeno/nightzoom-fps-limiter"
+REPO="NightZoom-BJJ/BJJ-FPS-Limiter"
 PRUNE=0
 for arg in "$@"; do
   case "$arg" in
