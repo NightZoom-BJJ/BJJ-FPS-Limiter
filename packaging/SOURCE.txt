@@ -14,9 +14,8 @@ repository, so vX.Y.Z there is the source this binary was built from. The full
 build instructions are in BUILDING.md.
 
 This offer is good for anyone who received this zip, however they received it -
-downloaded from the releases page, handed it over on Discord, or copied from a
-friend. If the link above ever stops working, ask in the NightZoom Discord
-(https://discord.gg/nightzoom) and the source will be provided.
+downloaded from the releases page, handed over on Discord, or copied from a
+friend.
 
 What is in this zip
 -------------------

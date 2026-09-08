@@ -63,7 +63,3 @@ source of truth for the version — it flows into the DLL's version resource and
 Use the [issue forms](https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/issues/new/choose). Bugs and
 questions both go through GitHub Issues so answers stay searchable. For security problems, see
 [SECURITY.md](SECURITY.md) instead.
-
-## Code of conduct
-
-Participation is covered by our [Code of Conduct](CODE_OF_CONDUCT.md).

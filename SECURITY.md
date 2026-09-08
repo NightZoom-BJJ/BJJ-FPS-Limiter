@@ -17,8 +17,11 @@ Use GitHub's private vulnerability reporting:
 That opens a private thread visible only to the maintainer.
 
 Please include what an attacker could achieve, the steps to reproduce, and your Windows / FiveM /
-ReShade versions. Expect a first reply within a few days — this is a hobby project maintained by
-one person, not a product with an on-call rotation.
+ReShade versions.
+
+This is a spare-time project with no maintenance schedule and **no guaranteed response time** -
+reports get read when they get read. If something is being actively exploited and you have had no
+reply, disclose it publicly rather than sitting on it; players are better off knowing.
 
 ## What this add-on does and doesn't do
 
