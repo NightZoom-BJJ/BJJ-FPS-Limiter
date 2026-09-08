@@ -426,8 +426,14 @@ static void draw_overlay(reshade::api::effect_runtime *runtime)
 
 	ImGui::Spacing();
 	ImGui::Separator();
+	// Nipeno's attribution deliberately is not shown here. He asked not to be associated
+	// with NightZoom, and this overlay is the one place his name would appear inside a
+	// NightZoom-branded product. Full credit stays where it belongs and where the licence
+	// requires it: the copyright notice at the top of this file, the README, and the commit
+	// history. Nothing here is an "Appropriate Legal Notice" under GPLv3 s0, and the
+	// original overlay displayed none either, so s5(d) does not apply.
 	ImGui::TextUnformatted("A bjj_dev product");
-	ImGui::TextDisabled("Built for NightZoom - originally by Nipeno");
+	ImGui::TextDisabled("Built for NightZoom");
 	ImGui::TextDisabled("Version %s", BJJ_VERSION_STR);
 
 	// Discord link: button opens the invite; full URL shown below as a selectable fallback.
@@ -450,7 +456,7 @@ static void draw_overlay(reshade::api::effect_runtime *runtime)
 extern "C" __declspec(dllexport) const char *NAME = "BJJ FPS Limiter";
 extern "C" __declspec(dllexport) const char *DESCRIPTION =
 	"Hard-caps the game's frame rate to exactly 60 FPS. A bjj_dev product, "
-	"built for NightZoom. Originally by Nipeno.";
+	"built for NightZoom.";
 
 // ---------------------------------------------------------------------------
 // Entry point

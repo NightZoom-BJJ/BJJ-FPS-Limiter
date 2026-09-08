@@ -10,6 +10,21 @@ Every release bundles whatever ReShade was latest at build time; the exact versi
 
 ## [Unreleased]
 
+## [3.0.1] - 2026-09-08
+
+### Changed
+- The overlay and the add-on description no longer carry the original author's name. He asked not
+  to be associated with NightZoom, and those two strings were the only places his name appeared
+  inside a NightZoom-branded product. Attribution is unchanged everywhere it actually belongs — the
+  copyright notice in `src/main.cpp`, the Windows file properties, the README, and every one of his
+  commits in this repository's history.
+- `SOURCE.txt` no longer offers to hand out source over Discord; the repository link above it is the
+  real GPLv3 offer and does not depend on anyone reading messages.
+
+### Removed
+- `CODE_OF_CONDUCT.md`, and the response-time promise in `SECURITY.md`. This is a spare-time project
+  with nobody on call, and a commitment nobody is keeping is worse than none.
+
 ## [3.0.0] - 2026-09-07
 
 The limiter is now a **bjj_dev** product. Nothing about how it works changed — same fixed 60 FPS
@@ -190,7 +205,8 @@ Initial release.
 - GPLv3 license, a "View Source on GitHub" button in the overlay, and split user/developer docs.
 - GitHub Actions build targeting ReShade addon API 18 (SDK v6.7.3).
 
-[Unreleased]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.1...HEAD
+[3.0.1]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.5.0...v3.0.0
 [2.5.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.4.1...v2.5.0
 [2.4.1]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.4.0...v2.4.1
