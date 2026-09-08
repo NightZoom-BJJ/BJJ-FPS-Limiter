@@ -70,6 +70,12 @@ what went wrong.
 Not on the NightZoom server yet? The Discord is at <https://discord.gg/nightzoom> - that's the
 place to get onto the server, not the place to report add-on bugs.
 
+## Provenance
+
+This is a fork. The original repository's source, tags and releases were removed by its author, who
+has stepped away from NightZoom. This fork preserves the complete history - 73 commits, `v1.0.0`
+through `v2.5.0` - so the GPLv3 source behind every earlier release remains available.
+
 ## Credits
 
 - Maintained by **bjj_dev**
