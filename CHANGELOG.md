@@ -10,6 +10,13 @@ Every release bundles whatever ReShade was latest at build time; the exact versi
 
 ## [Unreleased]
 
+## [3.0.2] - 2026-09-08
+
+### Changed
+- The Install Guide's byline no longer credits the original author or links his site. 3.0.1 took his
+  name out of the overlay for the same reason and missed this one, which ships in the same zip.
+  Attribution is unchanged in `SOURCE.txt` and `LICENSE.txt`, both of which are also in the zip.
+
 ## [3.0.1] - 2026-09-08
 
 ### Changed
@@ -205,7 +212,8 @@ Initial release.
 - GPLv3 license, a "View Source on GitHub" button in the overlay, and split user/developer docs.
 - GitHub Actions build targeting ReShade addon API 18 (SDK v6.7.3).
 
-[Unreleased]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.2...HEAD
+[3.0.2]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.5.0...v3.0.0
 [2.5.0]: https://github.com/NightZoom-BJJ/BJJ-FPS-Limiter/compare/v2.4.1...v2.5.0
